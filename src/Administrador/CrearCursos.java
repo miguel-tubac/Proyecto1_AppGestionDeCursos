@@ -4,15 +4,10 @@
  */
 package Administrador;
 
-import Administrador.AdministradorProfesores;
-import Administrador.AdministradorCursos;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Arrays;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -22,11 +17,8 @@ import javax.swing.JPanel;
  */
 public class CrearCursos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CrearProfesor
-     */
    
-           //clase de degradado
+           
      public CrearCursos() {
         initComponents();
         

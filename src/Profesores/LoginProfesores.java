@@ -5,6 +5,7 @@ import Administrador.*;
 import static Administrador.AdministradorProfesores.codi;
 import static Administrador.AdministradorProfesores.contra;
 import static Administrador.AdministradorProfesores.filaP;
+import static Profesores.CursosProfesor.filaActividades;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -19,9 +20,6 @@ import javax.swing.JPanel;
 public class LoginProfesores extends javax.swing.JFrame {
     public static String codigo;
 
-    /**
-     * Creates new form Login
-     */
     public LoginProfesores() {
         initComponents();
 
@@ -210,6 +208,13 @@ public class LoginProfesores extends javax.swing.JFrame {
             //con esto activo la funcion para obtener la informacion del curso para profesro
             AdministradorCursos cur=new AdministradorCursos();
             cur.pasarCursoAlumnos();
+            //con esto reseteo la tabbla de alumnos
+            CursosProfesor der=new CursosProfesor();
+            CursosProfesor.contadorAlumnos =0;
+            CursosProfesor.contadorActividades =0;
+            CursosProfesor.acumulado=0;
+            der.actualizarListadoActividades();
+            der.actualizarListadoAlumnos();
             
             ProfesorInicio objet = new ProfesorInicio();
             objet.show(true);

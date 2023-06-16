@@ -39,11 +39,24 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
     public static int contadorNotas;
     public static int contadorActividades=0;
     public static int filaS;
+    public static int filaActividades;
     public static double acumulado;
     public static double ponderacionActividad;
     
     public static double[] resguardo;
     JLabel etiqueta=new JLabel();
+    //resgurado de datos de la tabla actividades
+    public static String[] nombreActividad;
+    public static String[] descripcionActividad;
+    public static String[] ponderaActividad;
+    
+    //resguardo de datos de la tabla alumnos
+    public static String[] codigoA;
+    public static String[] nombreA;
+    public static String[] apellidoA;
+    public static String[] accionesA;
+    public static String[] correoA;
+    public static String[] generoA;
 
     // Para actualizar alumnos
     
@@ -535,7 +548,9 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
 
     private void Regresar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Regresar3ActionPerformed
         // TODO add your handling code here:
-        
+        actualizarListadoActividades();
+        actualizarListadoAlumnos();
+        actualizarTablaAlumnos();
         ProfesorInicio objet=new ProfesorInicio();
         objet.show(true);
         this.show(false);
@@ -691,6 +706,37 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
             
         ListadoAlumnos.addMouseListener(this);
         }        
+    }
+        public void actualizarTablaAlumnos(){
+        filaS = ListadoAlumnos.getRowCount();
+        filaActividades = jTable2.getRowCount();
+        
+        nombreActividad=new String[filaActividades];
+        descripcionActividad=new String[filaActividades];
+        ponderaActividad=new String[filaActividades];
+        
+        for(int i=0;i<filaActividades;i++){
+            nombreActividad[i] = jTable2.getModel().getValueAt(i, 0).toString();
+            descripcionActividad[i]=jTable2.getModel().getValueAt(i, 0).toString();
+            ponderaActividad[i] = jTable2.getModel().getValueAt(i, 0).toString();
+        }
+        jLabel5.setText(acumulado+"/100");
+        
+        codigoA=new String[filaS];
+        nombreA=new String[filaS];
+        apellidoA=new String[filaS];
+        accionesA=new String[filaS];
+        correoA=new String[filaS];
+        generoA=new String[filaS];
+        
+        for(int i=0;i<filaS;i++){
+        codigoA[i] = ListadoAlumnos.getModel().getValueAt(i, 0).toString();
+        nombreA[i] = ListadoAlumnos.getModel().getValueAt(i, 0).toString();
+        apellidoA[i] = ListadoAlumnos.getModel().getValueAt(i, 0).toString();
+        accionesA[i] = ListadoAlumnos.getModel().getValueAt(i, 0).toString();
+        correoA[i] = ListadoAlumnos.getModel().getValueAt(i, 0).toString();
+        generoA[i] = ListadoAlumnos.getModel().getValueAt(i, 0).toString();
+        }
     }
 //a    //con este metodo genero el array de DatosGene con el cual genero el reporte de Top 5
     public void generarDatosGene(){

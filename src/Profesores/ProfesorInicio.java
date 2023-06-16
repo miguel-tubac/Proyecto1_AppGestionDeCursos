@@ -180,6 +180,9 @@ public class ProfesorInicio extends javax.swing.JFrame {
     private void AdministrarCursoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AdministrarCursoActionPerformed
         // TODO add your handling code here:
         CursosProfesor objet=new CursosProfesor();
+        objet.actualizarListadoActividades();
+        objet.actualizarListadoAlumnos();
+        objet.actualizarTablaAlumnos();
         objet.show(true);
         this.show(false);
     }//GEN-LAST:event_AdministrarCursoActionPerformed

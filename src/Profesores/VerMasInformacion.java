@@ -4,7 +4,6 @@
  */
 package Profesores;
 
-import Administrador.*;
 import static Profesores.CursosProfesor.alumnos;
 import static Profesores.CursosProfesor.contadorAlumnos;
 import static Profesores.CursosProfesor.filaS;
@@ -12,7 +11,6 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -22,9 +20,6 @@ import javax.swing.JPanel;
  */
 public class VerMasInformacion extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CrearProfesor
-     */
     public VerMasInformacion() {
         initComponents();
                 
@@ -217,10 +212,11 @@ public class VerMasInformacion extends javax.swing.JFrame {
         } 
         contadorAlumnos--;
         JOptionPane.showMessageDialog(rootPane,"ALUMNO ELIMINADO CON EXITO");
-        CursosProfesor objt=new CursosProfesor();
-        objt.actualizarListadoAlumnos();
         
         CursosProfesor objet=new CursosProfesor();
+        objet.actualizarListadoActividades();
+        objet.actualizarListadoAlumnos();
+        objet.actualizarTablaAlumnos();
         objet.show(true);
         this.show(false);
     }//GEN-LAST:event_ActualizarBtnActionPerformed
@@ -251,6 +247,9 @@ public class VerMasInformacion extends javax.swing.JFrame {
     private void Regresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Regresar1ActionPerformed
         // TODO add your handling code here:
         CursosProfesor objet=new CursosProfesor();
+        objet.actualizarListadoActividades();
+        objet.actualizarListadoAlumnos();
+        objet.actualizarTablaAlumnos();
         objet.show(true);
         this.show(false);
     }//GEN-LAST:event_Regresar1ActionPerformed

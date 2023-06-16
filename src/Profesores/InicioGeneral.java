@@ -4,16 +4,9 @@
  */
 package Profesores;
 
-import Administrador.AdministradorCursos;
-//import static Administrador.AdministradorCursos.datos;
 import static Administrador.AdministradorCursos.fila;
-import Administrador.AdministradorProfesores;
-import static Administrador.AdministradorProfesores.codi;
-import static Administrador.AdministradorProfesores.contra;
 import static Administrador.AdministradorProfesores.filaP;
-import Administrador.CrearCursos;
 import Administrador.Login;
-import Administrador.Profesor;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
