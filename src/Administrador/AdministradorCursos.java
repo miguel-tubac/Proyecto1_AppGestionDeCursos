@@ -4,17 +4,12 @@
  */
 package Administrador;
 
-//import Administrador.ActualizarCurso;
-
 import Profesores.InicioGeneral;
-import Profesores.LoginProfesores;
-import static Profesores.LoginProfesores.codigo;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;

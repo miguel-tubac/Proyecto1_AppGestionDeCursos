@@ -4,26 +4,16 @@
  */
 package Administrador;
 
-import Administrador.Profesor;
-import Administrador.AdministradorCursos;
-import Administrador.ActualizarProfesor;
-import static Administrador.AdministradorCursos.contadorCursos;
-import static Administrador.AdministradorCursos.cursos;
 import Profesores.InicioGeneral;
-
 
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;

@@ -32,13 +32,17 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
     public static Alumnos[] alumnos = new Alumnos[300];
     public static Actividades[] actividad=new Actividades[100];
     public static NotasActividad[] notas=new NotasActividad[100];
+    public static DatosGene[] datosGene=new DatosGene[100];
+    public static DatosGene[] arregloCopia;
     
     public static int contadorAlumnos;
     public static int contadorNotas;
     public static int contadorActividades=0;
     public static int filaS;
     public static double acumulado;
+    public static double ponderacionActividad;
     
+    public static double[] resguardo;
     JLabel etiqueta=new JLabel();
 
     // Para actualizar alumnos
@@ -404,6 +408,7 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
     private void ExportarAHtmlToP5MejoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarAHtmlToP5MejoresActionPerformed
         // TODO add your handling code here:
         //Top 5 - Estudiantes con Mejor Rendimiento HTML
+        mejoresTop5();
         String cadenaHTML = "<!DOCTYPE html>\n"
                 + "<html>\n"
                 + "<body>\n"
@@ -421,13 +426,14 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
                 + "    </tr>";
 
         
-        for (int i = 0; i < contadorAlumnos; i++) {
+        for (int i = 1; i <= 5; i++) {
             cadenaHTML += "<tr>\n"
-                    + "<td>" + profesores[i].codigo + "</td>\n"
-                    + "<td>" + profesores[i].nombre + "</td>\n"
-                    + "<td>" + profesores[i].apellido + "</td>\n"
-                    + "<td>" + profesores[i].correo + "</td>\n"
-                    + "<td>" + profesores[i].genero+ "</td>\n"
+                    + "<td>" + i + "</td>\n"
+                    + "<td>" + arregloCopia[i-1].codigo + "</td>\n"
+                    + "<td>" + arregloCopia[i-1].nombre + "</td>\n"
+                    + "<td>" + arregloCopia[i-1].apellido + "</td>\n"
+                    + "<td>" + arregloCopia[i-1].correo+ "</td>\n"
+                    + "<td>" + arregloCopia[i-1].Nota+ "</td>\n"
                     + "</tr>";
         }
         
@@ -439,7 +445,7 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         PrintWriter pw = null;
         
         try{
-            fichero = new FileWriter("./Reportes/Profesores.html");
+            fichero = new FileWriter("./Reportes/TOP-5-Mejores.html");
             pw = new PrintWriter(fichero);
               
             pw.println(cadenaHTML);
@@ -453,19 +459,16 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
 
     public void mejoresTop5(){
         // hacer top 5
-            Alumnos[] arregloCopia = alumnos.clone();
-
+        arregloCopia = datosGene.clone();
             // burbuja
             for (int comprobacion = 0; comprobacion < contadorAlumnos; comprobacion++) {
-                //System.out.println("Iniciando comprobacion");
-
                 // ciclo para recorrer los elementos del arreglo
                 for (int elementoArreglo = 0; elementoArreglo < contadorAlumnos - 1; elementoArreglo++) {
-                    Alumnos elementoActual = arregloCopia[elementoArreglo];
-                    Alumnos elementoSiguiente = arregloCopia[elementoArreglo + 1];
+                    DatosGene elementoActual = arregloCopia[elementoArreglo];
+                    DatosGene elementoSiguiente = arregloCopia[elementoArreglo + 1];
 
                     // si el actual es mayor al siguiente
-                    if (Integer.valueOf(elementoActual)< Integer.valueOf(elementoSiguiente.alumnos)) {
+                    if ( (elementoActual.Nota) < (elementoSiguiente.Nota)) {
                         // Se hace el intercambio
                         arregloCopia[elementoArreglo] = elementoSiguiente;
                         arregloCopia[elementoArreglo + 1] = elementoActual;
@@ -473,21 +476,26 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
                     }
                 }
             }
+    }
+        public void peoresTop5(){
+        // hacer peores top 5
+        arregloCopia = datosGene.clone();
+            // burbuja
+            for (int comprobacion = 0; comprobacion < contadorAlumnos; comprobacion++) {
+                // ciclo para recorrer los elementos del arreglo
+                for (int elementoArreglo = 0; elementoArreglo < contadorAlumnos - 1; elementoArreglo++) {
+                    DatosGene elementoActual = arregloCopia[elementoArreglo];
+                    DatosGene elementoSiguiente = arregloCopia[elementoArreglo+1 ];
 
-            //System.out.println("entra aquii");
-            // actualizar listado
-            DefaultTableModel modeloTop3 = (DefaultTableModel) TablaTop3.getModel();
+                    // si el actual es mayor al siguiente
+                    if ( (elementoActual.Nota) > (elementoSiguiente.Nota)) {
+                        // Se hace el intercambio
+                        arregloCopia[elementoArreglo] = elementoSiguiente;
+                        arregloCopia[elementoArreglo +1] = elementoActual;
 
-            modeloTop3.setValueAt("1", 0, 0);
-            modeloTop3.setValueAt("2", 1, 0);
-            modeloTop3.setValueAt("3", 2, 0);
-
-            for (int i = 0; i < 3; i++) {
-                // puesto, nombre, cantidad
-                modeloTop3.setValueAt(arregloCopia[i].nombre, i, 1);
-                modeloTop3.setValueAt(arregloCopia[i].alumnos, i, 2);
+                    }
+                }
             }
-        
     }
     
     private void CargaMBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaMBtnActionPerformed
@@ -521,7 +529,7 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         } catch (Exception e) {
             System.out.println(e);
         }
-        
+        resguardo=new double[contadorAlumnos];
         //actualizar();
     }//GEN-LAST:event_CargaMBtnActionPerformed
 
@@ -535,6 +543,52 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
 
     private void ExportarAHtmlToP5PeoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarAHtmlToP5PeoresActionPerformed
         // TODO add your handling code here:
+        peoresTop5();
+        String cadenaHTML = "<!DOCTYPE html>\n"
+                + "<html>\n"
+                + "<body>\n"
+                + "\n"
+                + "<h1>TOP 5 - ESTUDIANTES CON  PEOR RENDIMIENTO</h1>\n"
+                + "\n"
+                + "<table style=\"margin:auto\">\n"
+                + "    <tr>\n"
+                + "      <th>POSICION</th>\n"
+                + "      <th>CODIGO</th>\n"
+                + "      <th>NOMBRE</th>\n"
+                + "      <th>APELLIDO</th>\n"
+                + "      <th>CORREO</th>\n"
+                + "      <th>NOTA ACUMULADA</th>\n"
+                + "    </tr>";
+
+        
+        for (int i = 1; i <= 5; i++) {
+            cadenaHTML += "<tr>\n"
+                    + "<td>" + i + "</td>\n"
+                    + "<td>" + arregloCopia[i-1].codigo + "</td>\n"
+                    + "<td>" + arregloCopia[i-1].nombre + "</td>\n"
+                    + "<td>" + arregloCopia[i-1].apellido + "</td>\n"
+                    + "<td>" + arregloCopia[i-1].correo+ "</td>\n"
+                    + "<td>" + arregloCopia[i-1].Nota+ "</td>\n"
+                    + "</tr>";
+        }
+        
+        cadenaHTML += "</table>\n"
+                + "</body>\n"
+                + "</html>\n";
+                
+        FileWriter fichero = null;
+        PrintWriter pw = null;
+        
+        try{
+            fichero = new FileWriter("./Reportes/TOP-5-Peores.html");
+            pw = new PrintWriter(fichero);
+              
+            pw.println(cadenaHTML);
+            fichero.close();
+            JOptionPane.showMessageDialog(rootPane,"ARCHIVO CREADO");
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }//GEN-LAST:event_ExportarAHtmlToP5PeoresActionPerformed
 
     private void CargaMasivaNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaMasivaNotasActionPerformed
@@ -566,6 +620,7 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         } catch (Exception e) {
             System.out.println(e);
         }
+        
     }//GEN-LAST:event_CargaMasivaNotasActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -577,19 +632,22 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         if(vali1.isEmpty() || vali2.isEmpty() ||vali3.isEmpty() ){
             JOptionPane.showMessageDialog(rootPane,"INGRESE TODOS LOS CAMPOS");
         }else{
+            
             acumulado += Double.valueOf(jTextField4.getText());
+            
             if(acumulado>0 && acumulado<=100){
+                ponderacionActividad=0;
                 jLabel5.setText(acumulado+"/100");
                 Actividades activiti = new Actividades(jTextField1.getText(),jTextField3.getText(),Double.valueOf(jTextField4.getText()));
                 actividad[contadorActividades]=activiti;
-
+                ponderacionActividad = Double.valueOf(jTextField4.getText());
                 jTextField1.setText("");
                 jTextField3.setText("");
                 jTextField4.setText("");
                 JOptionPane.showMessageDialog(rootPane,"ACTIVIDAD AGREGADA CON EXITO");
                 contadorActividades++;
                 actualizarListadoActividades();
-                System.out.println(notas[0].nota); 
+                generarDatosGene(); 
             }else{
                 JOptionPane.showMessageDialog(rootPane,"DEVIDO AL ACUMULADO NO ES POSIBLE AGREGAR MAS ACTIVIDADES");
                 acumulado -= Double.valueOf(jTextField4.getText());
@@ -633,6 +691,22 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
             
         ListadoAlumnos.addMouseListener(this);
         }        
+    }
+//a    //con este metodo genero el array de DatosGene con el cual genero el reporte de Top 5
+    public void generarDatosGene(){
+        
+        for(int i=0;i<contadorNotas;i++){
+            notas[i].nota*=ponderacionActividad;
+            resguardo[i]+=notas[i].nota;
+        }
+        
+        for(int i=0;i<contadorAlumnos;i++){
+           DatosGene genr=new DatosGene(alumnos[i].codigo,alumnos[i].nombre,
+                   alumnos[i].apellido,alumnos[i].correo, resguardo[i]);
+           datosGene[i]=genr;
+            //System.out.println(datosGene[i].Nota); //es para ver las notas acumuladas
+        }
+        //System.out.println();//es para ver las notas acumuladas
     }
 
     /**
