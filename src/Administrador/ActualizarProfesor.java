@@ -23,10 +23,9 @@ public class ActualizarProfesor extends javax.swing.JFrame {
      */
     public ActualizarProfesor() {
         initComponents();
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
+        
         meterDatos();
-        CodigoInput.setEditable(false);
+        CodigoInput.setEnabled(false);
     }
     
      //clase de degradado
@@ -169,8 +168,8 @@ public class ActualizarProfesor extends javax.swing.JFrame {
                                     .addComponent(jLabel2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(gener, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(PasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(PasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gener, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(172, 172, 172)
                         .addComponent(ActualizarBtn))
@@ -280,7 +279,13 @@ public class ActualizarProfesor extends javax.swing.JFrame {
         CorreoInput.setText(AdministradorProfesores.correo);
         PasswordInput.setText(AdministradorProfesores.contrasenia);
         //gener.setText(AdministradorProfesores.genero);
-        gener.setToolTipText(AdministradorProfesores.genero);
+        int indice;
+        if(AdministradorProfesores.genero.equals("m")){
+            indice=0;
+        }else{
+           indice=1; 
+        }
+        gener.setSelectedIndex(indice);
     }
 
     private void CodigoInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CodigoInputActionPerformed

@@ -23,10 +23,8 @@ public class ActualizarCurso extends javax.swing.JFrame {
      */
     public ActualizarCurso() {
         initComponents();
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
         meterDatos();
-        CodigoInput.setEditable(false);
+        CodigoInput.setEnabled(false);
     }
      //clase de degradado
   class jPanelGradient extends JPanel{

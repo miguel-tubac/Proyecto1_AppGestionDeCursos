@@ -29,8 +29,7 @@ public class CrearCursos extends javax.swing.JFrame {
            //clase de degradado
      public CrearCursos() {
         initComponents();
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
+        
         meterDatos();
         
     }
@@ -205,6 +204,7 @@ public class CrearCursos extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarActionPerformed

@@ -24,8 +24,7 @@ public class ActualizarDatosProfesor extends javax.swing.JFrame {
      */
     public ActualizarDatosProfesor() {
         initComponents();
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
+       
         meterDatos();
         
     }
@@ -172,12 +171,12 @@ public class ActualizarDatosProfesor extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Regresar1)
-                .addGap(26, 26, 26))
+                .addGap(19, 19, 19))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addContainerGap(30, Short.MAX_VALUE)
                 .addComponent(jLabel7)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -201,9 +200,9 @@ public class ActualizarDatosProfesor extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addGap(17, 17, 17)
                 .addComponent(ActualizarBtn)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Regresar1)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addGap(12, 12, 12))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -214,7 +213,7 @@ public class ActualizarDatosProfesor extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -254,8 +253,14 @@ public class ActualizarDatosProfesor extends javax.swing.JFrame {
         ApellidoInput.setText(AdministradorProfesores.apellido);
         CorreoInput.setText(AdministradorProfesores.correo);
         PasswordInput.setText(AdministradorProfesores.contrasenia);
+        int indice;
+        if(AdministradorProfesores.genero.equals("m")){
+            indice=0;
+        }else{
+            indice=1;
+        }
         
-        gener.setToolTipText(AdministradorProfesores.genero);
+        gener.setSelectedIndex(indice);
     }
     
 

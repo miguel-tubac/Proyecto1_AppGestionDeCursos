@@ -14,13 +14,9 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,8 +30,15 @@ import javax.swing.table.DefaultTableModel;
 public class CursosProfesor extends javax.swing.JFrame implements  MouseListener{
 
     public static Alumnos[] alumnos = new Alumnos[300];
+    public static Actividades[] actividad=new Actividades[100];
+    public static NotasActividad[] notas=new NotasActividad[100];
     
-    public static int contadorAlumnos; 
+    public static int contadorAlumnos;
+    public static int contadorNotas;
+    public static int contadorActividades=0;
+    public static int filaS;
+    public static double acumulado;
+    
     JLabel etiqueta=new JLabel();
 
     // Para actualizar alumnos
@@ -53,15 +56,11 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
     public CursosProfesor() {
         initComponents();
         jLabel1.setText(AdministradorCursos.nombre);  
-             
-        actualizarListadoAlumnos();
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
-        
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+         contadorAlumnos = ListadoAlumnos.getRowCount();
          int fila=ListadoAlumnos.rowAtPoint(e.getPoint());
          int columna=ListadoAlumnos.columnAtPoint(e.getPoint());
          if(columna==3){
@@ -70,7 +69,11 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
              apellido = ListadoAlumnos.getModel().getValueAt(fila, 2).toString();
              correo = ListadoAlumnos.getModel().getValueAt(fila, 4).toString();
              genero = ListadoAlumnos.getModel().getValueAt(fila, 5).toString();
-             System.out.println(correo+"; "+genero);
+             filaS=fila;
+             
+             VerMasInformacion objet=new VerMasInformacion();
+             objet.show(true);
+             this.show(false);
          }
     }
 
@@ -128,7 +131,7 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         jScrollPane1 = new javax.swing.JScrollPane();
         ListadoAlumnos = new javax.swing.JTable();
         CargaMBtn = new javax.swing.JButton();
-        ExportarAHtml = new javax.swing.JButton();
+        ExportarAHtmlToP5Mejores = new javax.swing.JButton();
         Regresar3 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -137,7 +140,7 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        ExportarAHtml1 = new javax.swing.JButton();
+        ExportarAHtmlToP5Peores = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
@@ -146,7 +149,7 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        CargaMBtn1 = new javax.swing.JButton();
+        CargaMasivaNotas = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -188,11 +191,11 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
             }
         });
 
-        ExportarAHtml.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        ExportarAHtml.setText("Top 5 - Estudiantes con Mejor Rendimiento HTML");
-        ExportarAHtml.addActionListener(new java.awt.event.ActionListener() {
+        ExportarAHtmlToP5Mejores.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        ExportarAHtmlToP5Mejores.setText("Top 5 - Estudiantes con Mejor Rendimiento HTML");
+        ExportarAHtmlToP5Mejores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExportarAHtmlActionPerformed(evt);
+                ExportarAHtmlToP5MejoresActionPerformed(evt);
             }
         });
 
@@ -228,29 +231,22 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("jLabel5");
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("LIstado Alumnos:");
 
-        ExportarAHtml1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        ExportarAHtml1.setText("Top 5 - Estudiantes con Peor Rendimiento HTML");
-        ExportarAHtml1.addActionListener(new java.awt.event.ActionListener() {
+        ExportarAHtmlToP5Peores.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        ExportarAHtmlToP5Peores.setText("Top 5 - Estudiantes con Peor Rendimiento HTML");
+        ExportarAHtmlToP5Peores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ExportarAHtml1ActionPerformed(evt);
+                ExportarAHtmlToP5PeoresActionPerformed(evt);
             }
         });
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Crear Actividad:");
-
-        jTextField1.setText("jTextField1");
-
-        jTextField3.setText("jTextField3");
-
-        jTextField4.setText("jTextField4");
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -268,16 +264,21 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Notas:");
 
-        CargaMBtn1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        CargaMBtn1.setText("Seleccionar Archivo CSV");
-        CargaMBtn1.addActionListener(new java.awt.event.ActionListener() {
+        CargaMasivaNotas.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        CargaMasivaNotas.setText("Seleccionar Archivo CSV");
+        CargaMasivaNotas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CargaMBtn1ActionPerformed(evt);
+                CargaMasivaNotasActionPerformed(evt);
             }
         });
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jButton1.setText("Crear Actividad");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -292,8 +293,8 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
                             .addComponent(jLabel6)
-                            .addComponent(ExportarAHtml, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ExportarAHtml1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ExportarAHtmlToP5Mejores, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ExportarAHtmlToP5Peores, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Regresar3, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -313,10 +314,6 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel8)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(jLabel9)
                                                 .addComponent(jLabel10)
@@ -325,16 +322,20 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
                                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(jTextField3)
                                                 .addComponent(jTextField4)
-                                                .addComponent(CargaMBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))))
+                                                .addComponent(CargaMasivaNotas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addGap(45, 45, 45)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(147, 147, 147)
                         .addComponent(CargaMBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(7, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -362,9 +363,9 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(ExportarAHtml)
+                        .addComponent(ExportarAHtmlToP5Mejores)
                         .addGap(18, 18, 18)
-                        .addComponent(ExportarAHtml1)
+                        .addComponent(ExportarAHtmlToP5Peores)
                         .addGap(42, 42, 42)
                         .addComponent(Regresar3))
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -379,7 +380,7 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(CargaMBtn1))
+                            .addComponent(CargaMasivaNotas))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1)))
                 .addContainerGap())
@@ -389,7 +390,7 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,27 +398,30 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ExportarAHtmlActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarAHtmlActionPerformed
+    private void ExportarAHtmlToP5MejoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarAHtmlToP5MejoresActionPerformed
         // TODO add your handling code here:
-      /*  String cadenaHTML = "<!DOCTYPE html>\n"
+        //Top 5 - Estudiantes con Mejor Rendimiento HTML
+        String cadenaHTML = "<!DOCTYPE html>\n"
                 + "<html>\n"
                 + "<body>\n"
                 + "\n"
-                + "<h1>PROFESORES</h1>\n"
+                + "<h1>TOP 5 - ESTUDIANTES CON  MEJOR RENDIMIENTO</h1>\n"
                 + "\n"
                 + "<table style=\"margin:auto\">\n"
                 + "    <tr>\n"
-                + "      <th>codigo</th>\n"
-                + "      <th>nombre</th>\n"
-                + "      <th>apellido</th>\n"
-                + "      <th>correo</th>\n"
-                + "      <th>genero</th>\n"
+                + "      <th>POSICION</th>\n"
+                + "      <th>CODIGO</th>\n"
+                + "      <th>NOMBRE</th>\n"
+                + "      <th>APELLIDO</th>\n"
+                + "      <th>CORREO</th>\n"
+                + "      <th>NOTA ACUMULADA</th>\n"
                 + "    </tr>";
 
         
-        for (int i = 0; i < contadorProfesores; i++) {
+        for (int i = 0; i < contadorAlumnos; i++) {
             cadenaHTML += "<tr>\n"
                     + "<td>" + profesores[i].codigo + "</td>\n"
                     + "<td>" + profesores[i].nombre + "</td>\n"
@@ -443,10 +447,49 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
             JOptionPane.showMessageDialog(rootPane,"ARCHIVO CREADO");
         }catch (Exception e){
             System.out.println(e);
-        }*/
+        }
         
-    }//GEN-LAST:event_ExportarAHtmlActionPerformed
+    }//GEN-LAST:event_ExportarAHtmlToP5MejoresActionPerformed
 
+    public void mejoresTop5(){
+        // hacer top 5
+            Alumnos[] arregloCopia = alumnos.clone();
+
+            // burbuja
+            for (int comprobacion = 0; comprobacion < contadorAlumnos; comprobacion++) {
+                //System.out.println("Iniciando comprobacion");
+
+                // ciclo para recorrer los elementos del arreglo
+                for (int elementoArreglo = 0; elementoArreglo < contadorAlumnos - 1; elementoArreglo++) {
+                    Alumnos elementoActual = arregloCopia[elementoArreglo];
+                    Alumnos elementoSiguiente = arregloCopia[elementoArreglo + 1];
+
+                    // si el actual es mayor al siguiente
+                    if (Integer.valueOf(elementoActual)< Integer.valueOf(elementoSiguiente.alumnos)) {
+                        // Se hace el intercambio
+                        arregloCopia[elementoArreglo] = elementoSiguiente;
+                        arregloCopia[elementoArreglo + 1] = elementoActual;
+
+                    }
+                }
+            }
+
+            //System.out.println("entra aquii");
+            // actualizar listado
+            DefaultTableModel modeloTop3 = (DefaultTableModel) TablaTop3.getModel();
+
+            modeloTop3.setValueAt("1", 0, 0);
+            modeloTop3.setValueAt("2", 1, 0);
+            modeloTop3.setValueAt("3", 2, 0);
+
+            for (int i = 0; i < 3; i++) {
+                // puesto, nombre, cantidad
+                modeloTop3.setValueAt(arregloCopia[i].nombre, i, 1);
+                modeloTop3.setValueAt(arregloCopia[i].alumnos, i, 2);
+            }
+        
+    }
+    
     private void CargaMBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaMBtnActionPerformed
         // TODO add your handling code here:
         JFileChooser fc = new JFileChooser();
@@ -456,9 +499,7 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
 
         BufferedReader reader = null;
         String line = "";
-
         contadorAlumnos = 0;
-
         try {
             reader = new BufferedReader(new FileReader(filePath));
             int contadorFila = 0;
@@ -476,7 +517,6 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
 
             }
             contadorAlumnos = contadorFila - 1;
-            //System.out.println(Arrays.toString(profesores));
             actualizarListadoAlumnos();
         } catch (Exception e) {
             System.out.println(e);
@@ -493,41 +533,81 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
         this.show(false);
     }//GEN-LAST:event_Regresar3ActionPerformed
 
-    private void ExportarAHtml1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarAHtml1ActionPerformed
+    private void ExportarAHtmlToP5PeoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportarAHtmlToP5PeoresActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ExportarAHtml1ActionPerformed
+    }//GEN-LAST:event_ExportarAHtmlToP5PeoresActionPerformed
 
-    private void CargaMBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaMBtn1ActionPerformed
+    private void CargaMasivaNotasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CargaMasivaNotasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CargaMBtn1ActionPerformed
-    
-    public void actualizar(){
-       /* filaP = ListadoAlumnos.getRowCount();
+        JFileChooser fc = new JFileChooser();
+        fc.showOpenDialog(null);
+
+        String filePath = fc.getSelectedFile().getAbsolutePath();
+
+        BufferedReader reader = null;
+        String line = "";
+
+        contadorNotas = 0;
+        try {
+            reader = new BufferedReader(new FileReader(filePath));
+            int contadorFila = 0;
+            while ((line = reader.readLine()) != null) {
+                if (contadorFila > 0) {
+                    String[] columnas = line.split(";");
+
+                    NotasActividad activiti = new NotasActividad(columnas[0], (Double.valueOf(columnas[1]))/100);
+
+                    notas[contadorFila - 1] = activiti;
+                }
+                contadorFila++;
+
+            }
+            contadorNotas = contadorFila - 1;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_CargaMasivaNotasActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String vali1=jTextField1.getText();
+        String vali2=jTextField3.getText();
+        String vali3=jTextField4.getText();
         
-        codi=new String[filaP];
-        contra=new String[filaP];
-        datos=new String[filaP];
+        if(vali1.isEmpty() || vali2.isEmpty() ||vali3.isEmpty() ){
+            JOptionPane.showMessageDialog(rootPane,"INGRESE TODOS LOS CAMPOS");
+        }else{
+            acumulado += Double.valueOf(jTextField4.getText());
+            if(acumulado>0 && acumulado<=100){
+                jLabel5.setText(acumulado+"/100");
+                Actividades activiti = new Actividades(jTextField1.getText(),jTextField3.getText(),Double.valueOf(jTextField4.getText()));
+                actividad[contadorActividades]=activiti;
+
+                jTextField1.setText("");
+                jTextField3.setText("");
+                jTextField4.setText("");
+                JOptionPane.showMessageDialog(rootPane,"ACTIVIDAD AGREGADA CON EXITO");
+                contadorActividades++;
+                actualizarListadoActividades();
+                System.out.println(notas[0].nota); 
+            }else{
+                JOptionPane.showMessageDialog(rootPane,"DEVIDO AL ACUMULADO NO ES POSIBLE AGREGAR MAS ACTIVIDADES");
+                acumulado -= Double.valueOf(jTextField4.getText());
+                jLabel5.setText(acumulado+"/100");
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+   
+    public void actualizarListadoActividades(){
         
-        for(int i=0;i<filaP;i++){
-        codi[i] = ListadoAlumnos.getModel().getValueAt(i, 0).toString();
-        contra[i] = ListadoAlumnos.getModel().getValueAt(i, 4).toString();
-        datos[i] = ListadoAlumnos.getModel().getValueAt(i, 0).toString();
-        }*/
-    }
-    
-    public void pasarDatosProfesor(){
-        /*filaP = ListadoAlumnos.getRowCount();
-        
-        for(int i=0;i<filaP;i++){
-         if(ListadoAlumnos.getModel().getValueAt(i, 0).toString().equals(Profesores.LoginProfesores.codigo)){
-            nombre = ListadoAlumnos.getModel().getValueAt(i, 1).toString();
-            apellido = ListadoAlumnos.getModel().getValueAt(i, 2).toString();
-            correo = ListadoAlumnos.getModel().getValueAt(i, 3).toString();
-            contrasenia = ListadoAlumnos.getModel().getValueAt(i, 4).toString();
-            genero = ListadoAlumnos.getModel().getValueAt(i, 5).toString();
-            filaP=i;
-         }
-        }*/
+        DefaultTableModel modeloActividad = (DefaultTableModel) jTable2.getModel();
+        modeloActividad.setRowCount(contadorActividades);
+            for(int i=0;i<contadorActividades;i++ ){
+            modeloActividad.setValueAt(actividad[i].Nombre, i, 0);
+            modeloActividad.setValueAt(actividad[i].Descripcion, i, 1);
+            modeloActividad.setValueAt(actividad[i].Ponderacion, i, 2);
+            
+        }
     }
     
     
@@ -551,32 +631,8 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
                 
             }
             
-
-            // contar actividades
-            /*
-            int masculino = 0;
-            int femenino = 0;
-
-            for (int i = 0; i < contadorProfesores; i++) {
-                // si es hombre
-                if (profesores[i].genero.equals("m")) {
-                    masculino++;
-                    // si es mujer
-                } else {
-                    femenino++;
-                }
-            }
-            
-            // actualizar tabla
-            DefaultTableModel modeloListadoG = (DefaultTableModel) TablaGenero.getModel();
-            modeloListadoG.setValueAt("Femenino", 0, 0);
-            modeloListadoG.setValueAt("Masculino", 1, 0);
-
-            modeloListadoG.setValueAt((double) ((double) femenino / (double) contadorProfesores) * 100, 0, 1);
-            modeloListadoG.setValueAt((double) ((double) masculino / (double) contadorProfesores) * 100, 1, 1);*/
         ListadoAlumnos.addMouseListener(this);
         }        
-    //actualizar();
     }
 
     /**
@@ -617,9 +673,9 @@ public class CursosProfesor extends javax.swing.JFrame implements  MouseListener
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CargaMBtn;
-    private javax.swing.JButton CargaMBtn1;
-    private javax.swing.JButton ExportarAHtml;
-    private javax.swing.JButton ExportarAHtml1;
+    private javax.swing.JButton CargaMasivaNotas;
+    private javax.swing.JButton ExportarAHtmlToP5Mejores;
+    private javax.swing.JButton ExportarAHtmlToP5Peores;
     private javax.swing.JTable ListadoAlumnos;
     private javax.swing.JButton Regresar3;
     private javax.swing.JButton jButton1;

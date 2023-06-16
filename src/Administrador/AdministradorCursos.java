@@ -50,8 +50,6 @@ public class AdministradorCursos extends javax.swing.JFrame {
         initComponents();
         actualizarListadoCursos();
         
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
     }
           //clase de degradado
   class jPanelGradient extends JPanel{

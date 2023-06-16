@@ -24,8 +24,7 @@ public class LoginProfesores extends javax.swing.JFrame {
      */
     public LoginProfesores() {
         initComponents();
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
+
     }
     
        //clase de degradado
@@ -183,6 +182,7 @@ public class LoginProfesores extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void usuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usuarioKeyReleased
